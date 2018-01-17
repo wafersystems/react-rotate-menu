@@ -19,16 +19,19 @@
     "menu"
   ],
   "dependencies": {
+    "classnames": "^2.2.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "babel-loader": "^7.1.2",
-    "webpack": "^3.10.0",
     "babel-preset-es2015": "^6.0.15",
     "babel-preset-react": "^6.0.15",
     "babel-preset-stage-0": "^6.5.0",
-    "react-scripts": "1.0.17"
+    "css-loader": "^0.28.8",
+    "react-scripts": "1.0.17",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
