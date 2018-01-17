@@ -3,5 +3,16 @@ import ReactDOM from 'react-dom';
 import App from './RotateMenu.jsx';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let data = []
+for (let i = 0; i < 12; i++) {
+  data.push({
+    text: `楼层${i}`,
+    title: `F${i}`,
+    onClick: (e) => {
+      console.log("click")
+    }
+  })
+}
+
+ReactDOM.render(<App dataSource={data}/>, document.getElementById('root'));
 registerServiceWorker();
