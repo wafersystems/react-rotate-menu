@@ -4,6 +4,8 @@ React Rotate Menu
 ## How to use
 
 ### Data
+
+````
 let data = []
 for (let i = 0; i < 12; i++) {
   data.push({
@@ -14,8 +16,14 @@ for (let i = 0; i < 12; i++) {
     }
   })
 }
+````
 
 ### React 
+
+````
 import RotateMenu from 'RotateMenu'
 
+
 <RotateMenu dataSource={data}/>
+
+````
