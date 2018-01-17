@@ -28,7 +28,7 @@ for (let i = 0; i < 12; i++) {
 ### React 
 
 ````
-import RotateMenu from 'RotateMenu'
+import RotateMenu from 'react-rotate-menu'
 
 
 <RotateMenu dataSource={data}/>
