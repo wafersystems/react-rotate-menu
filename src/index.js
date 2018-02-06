@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './RotateMenu.jsx';
+import './index.css'
 import registerServiceWorker from './registerServiceWorker';
 
 let data = []
