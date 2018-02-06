@@ -3,7 +3,7 @@
  * Date : 15/01/2018  6:33 PM
  * Email : wangxiao@wafersystems.com
  */
-import React, {Component} from 'react';
+import {Component} from 'react';
 import ReactDom from 'react-dom';
 
 export default class RenderInBody extends Component {

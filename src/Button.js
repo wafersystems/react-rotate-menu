@@ -4,8 +4,9 @@
  * Email : wangxiao@wafersystems.com
  */
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import {changeButtonBackgroundColor, changeButtonFontSize} from './RotateTools'
 
 class Button extends React.PureComponent {
 
@@ -15,32 +16,39 @@ class Button extends React.PureComponent {
     this.getPosition = this.getPosition.bind(this)
     this.getSize = this.getSize.bind(this)
     this.getDivStyle = this.getDivStyle.bind(this)
-    this.hide = this.hide.bind(this)
-    this.show = this.show.bind(this)
     this.onClick = this.onClick.bind(this)
+    this.displayTitle = this.displayTitle.bind(this)
   }
 
   _a
 
   _div
 
-  _ahd = 0
+  _title
+
+  _index = 0
 
   componentDidMount() {
+    changeButtonBackgroundColor(this.props.buttonBackground)
+    changeButtonFontSize(this.props.buttonFontSize)
+    this._a.style.color = this.props.buttonFontColor
+    this._a.style['box-shadow'] = `0 0 0 3px ${this.props.buttonBackground}`
+    this._title.style.color = this.props.titleFontColor
+    this._title.style['font-size'] = this.props.titleFontSize
   }
 
   getSize() {
     return {
       width: this._div.offsetWidth,
       height: this._div.offsetHeight,
-      ahd: this._ahd
+      index: this._index
     }
   }
 
-  setPosition(left, top, ahd) {
+  setPosition(left, top, index) {
     this._div.style.left = left + "px"
     this._div.style.top = top + "px"
-    this._ahd = ahd
+    this._index = index
   }
 
   getPosition() {
@@ -64,14 +72,6 @@ class Button extends React.PureComponent {
     return divStyle
   }
 
-  hide() {
-    this._div.setAttribute('class', this.getDivStyle() + ' ' + 'child-pop-button-hide')
-  }
-
-  show() {
-    this._div.setAttribute('class', this.getDivStyle())
-  }
-
   onClick(e) {
     const {onClick, hideChildPop, setCenter, index} = this.props
     if (onClick) {
@@ -83,6 +83,10 @@ class Button extends React.PureComponent {
     if (hideChildPop) {
       hideChildPop()
     }
+  }
+
+  displayTitle(status) {
+    this._title.style.display = status
   }
 
   render() {
@@ -107,9 +111,9 @@ class Button extends React.PureComponent {
     })
     return (
       <div className={divStyle} ref={div => this._div = div}>
-        <a href="javascript:void(0);" className={textStyle} data-attr={text} ref={a => this._a = a}
-           onClick={this.onClick}></a>
-        <span className={titleStyle}>{title}</span>
+        <a className={textStyle} data-attr={text} ref={a => this._a = a}
+           onClick={this.onClick}>{text}</a>
+        <span className={titleStyle} ref={a => this._title = a}>{title}</span>
       </div>
     )
   }
@@ -119,7 +123,12 @@ Button.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   className: PropTypes.string,
-  size: PropTypes.oneOf(['normal', 'small'])
+  size: PropTypes.oneOf(['normal', 'small']),
+  titleFontColor: PropTypes.string.isRequired,
+  titleFontSize: PropTypes.string.isRequired,
+  buttonFontColor: PropTypes.string.isRequired,
+  buttonFontSize: PropTypes.string.isRequired,
+  buttonBackground: PropTypes.string.isRequired
 }
 
 Button.defaultProps = {
