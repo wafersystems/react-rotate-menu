@@ -8,7 +8,7 @@ console.log(path.join(__dirname, './src'));
 module.exports = {
   entry: {
     RotateMenu: './src/RotateMenu.jsx',
-    vendor: ['react', 'react-dom']
+    vendor: ['react', 'react-dom', 'classnames']
   },
   output: {
     path: path.join(__dirname, './dist'),
