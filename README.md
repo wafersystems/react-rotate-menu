@@ -6,7 +6,7 @@ React Rotate Menu
 
 ## Example
 
-![Example](https://static.oschina.net/uploads/img/201801/17161344_zLxB.gif)
+![Example](https://github.com/vkingw/react-rotate-menu/blob/master/example.gif)
 
 ## How to use
 
@@ -49,6 +49,8 @@ for (let i = 0; i < 12; i++) {
 
 ### Development
 
+````
 $ git clone https://github.com/wafersystems/react-rotate-menu.git
 $ npm i
 $ npm run-script start
+````
