@@ -8,12 +8,9 @@ let data = []
 for (let i = 0; i < 12; i++) {
   data.push({
     text: `楼层${i}`,
-    title: `F${i}`,
-    onClick: (e) => {
-      console.log("click")
-    }
+    title: `F${i}`
   })
 }
 
-ReactDOM.render(<App dataSource={data}/>, document.getElementById('root'));
+ReactDOM.render(<App dataSource={data} onClick={(e, d) => console.log(d)}/>, document.getElementById('root'));
 registerServiceWorker();
