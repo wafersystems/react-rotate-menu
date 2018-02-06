@@ -5,6 +5,14 @@
  */
 import React from 'react'
 import Button from './Button'
+import {
+  mouseCoords,
+  calculatePosition,
+  POP_HALF_WIDTH,
+  MORE_BUTTON_TOP,
+  MORE_BUTTON_LEFT,
+  AHD, isMobile
+} from './RotateTools'
 
 class ChildPop extends React.PureComponent {
 
@@ -14,29 +22,39 @@ class ChildPop extends React.PureComponent {
 
   _pop
 
-  _dotLeft
+  _move = false
 
-  _dotTop
+  _old_angle = 0
 
-  _lastMousePos = {
-    x: 0,
-    y: 0
-  }
+  _events = []
+
+  _hideData
 
   constructor(props) {
     super(props)
-    this.initRing = this.initRing.bind(this)
-    this.setPosition = this.setPosition.bind(this)
     this.addListen = this.addListen.bind(this)
+    this.removeListen = this.removeListen.bind(this)
+    this.mouseUpHandle = this.mouseUpHandle.bind(this)
+    this.mouseDownHandle = this.mouseDownHandle.bind(this)
+    this.touchStartHandle = this.touchStartHandle.bind(this)
+    this.touchEndHandle = this.touchEndHandle.bind(this)
+    this.rotatingEventHandle = this.rotatingEventHandle.bind(this)
+    this.timerOverEventHandle = this.timerOverEventHandle.bind(this)
     this.onTouchMove = this.onTouchMove.bind(this)
-    this.onMouseMove = this.onMouseMove.bind(this)
-    this.mouseCoords = this.mouseCoords.bind(this)
+    this.timerRotating = this.timerRotating.bind(this)
     this.rotating = this.rotating.bind(this)
-    this.calculatePosition = this.calculatePosition.bind(this)
+    this.onMouseMove = this.onMouseMove.bind(this)
+    this.initRing = this.initRing.bind(this)
+    this.getCentralPoint = this.getCentralPoint.bind(this)
     const {data} = this.props
     this.state = {
-      data: data.length < 9 ? data : data.slice(0, 8)
+      data: data.length < 9 ? data : data.slice(0, 8),
     }
+    this._hideData = data.length < 9 ? [] : data.slice(8, data.length)
+  }
+
+  componentWillUnmount() {
+    this.removeListen()
   }
 
   componentDidMount() {
@@ -44,113 +62,157 @@ class ChildPop extends React.PureComponent {
     const {data} = this.props
     if (data.length > 8) {
       this.addListen()
-      document.getElementsByTagName('body')[0].addEventListener('touchstart', function (e) {
-        e.preventDefault();
-      }, false)
     }
   }
 
   addListen() {
-    window.addEventListener('mousedown', e => {
-      this._move = true
-    })
-    window.addEventListener('mouseup', e => {
-      this._move = false
-    })
-    window.addEventListener('mousemove', this.onMouseMove)
-    window.addEventListener('touchmove', this.onTouchMove)
+    if (isMobile()) {
+      window.addEventListener('touchstart', this.touchStartHandle)
+      window.addEventListener('touchend', this.touchEndHandle)
+      window.addEventListener('touchmove', this.onTouchMove)
+    } else {
+      window.addEventListener('mouseup', this.mouseUpHandle)
+      window.addEventListener('mousedown', this.mouseDownHandle)
+      window.addEventListener('mousemove', this.onMouseMove)
+    }
+    window.addEventListener('rotating', this.rotatingEventHandle);
+    window.addEventListener('timerOver', this.timerOverEventHandle);
+  }
+
+  removeListen() {
+    if (isMobile()) {
+      window.removeEventListener('touchstart', this.touchStartHandle)
+      window.removeEventListener('touchend', this.touchEndHandle)
+      window.removeEventListener('touchmove', this.onTouchMove)
+    } else {
+      window.removeEventListener('mousedown', this.mouseDownHandle)
+      window.removeEventListener('mouseup', this.mouseUpHandle)
+      window.removeEventListener('mousemove', this.onMouseMove)
+    }
+    window.removeEventListener('rotating', this.rotatingEventHandle);
+    window.removeEventListener('timerOver', this.timerOverEventHandle);
+  }
+
+  mouseUpHandle() {
+    this._move = false
+    this._old_angle = 0
+  }
+
+  mouseDownHandle() {
+    this._move = true
+  }
+
+  touchStartHandle(e) {
+    if (e.target.nodeName !== 'A') {
+      e.preventDefault();
+    }
+  }
+
+  touchEndHandle() {
+  }
+
+  rotatingEventHandle(e) {
+    if (this._events.length === 0) {
+      this.timerRotating(e.detail, 11)
+    } else {
+      this._events.push(e.detail)
+    }
+  }
+
+  timerOverEventHandle() {
+    if (this._events.length > 0) {
+      this.timerRotating(this._events.shift(), 11)
+    }
   }
 
   onTouchMove(e) {
+    const {left, top} = this.props
     try {
-      let mousePos = this.mouseCoords(e)
-      mousePos.x = mousePos.x - this._dotLeft
-      mousePos.y = this._dotTop - mousePos.y
-      let quadrant = 1
-      if (mousePos.x < 0 && mousePos.y > 0) {
-        quadrant = 2
-      } else if (mousePos.x < 0 && mousePos.y < 0) {
-        quadrant = 3
-      } else if (mousePos.x > 0 && mousePos.y < 0) {
-        quadrant = 4
+      let mousePos = mouseCoords(e)
+      const angle = Math.atan2(mousePos.y - top, mousePos.x - left) * 180 / Math.PI
+      if (this._old_angle === 0) {
+        this._old_angle = angle
+        return
       }
-      const distanceY = mousePos.y - this._lastMousePos.y
-      const distanceX = mousePos.x - this._lastMousePos.x
-      let yChange = false
-      let xChange = false
-      if (distanceY > 5 || distanceY < -5) {
-        yChange = true
-      }
-      if (distanceX > 5 || distanceX < -5) {
-        xChange = true
-      }
-      switch (quadrant) {
-        case 1:
-          if (yChange) {
-            this.rotating(mousePos.y > this._lastMousePos.y)
-          } else if (xChange) {
-            this.rotating(mousePos.x < this._lastMousePos.x)
-          }
-          break
-        case 2:
-          if (yChange) {
-            this.rotating(mousePos.y < this._lastMousePos.y)
-          } else if (xChange) {
-            this.rotating(mousePos.x < this._lastMousePos.x)
-          }
-          break
-        case 3:
-          if (yChange) {
-            this.rotating(mousePos.y < this._lastMousePos.y)
-          } else if (xChange) {
-            this.rotating(mousePos.x > this._lastMousePos.x)
-          }
-          break
-        case 4:
-          if (yChange) {
-            this.rotating(mousePos.y > this._lastMousePos.y)
-          } else if (xChange) {
-            this.rotating(mousePos.x > this._lastMousePos.x)
-          }
-          break
-        default:
-          this.rotating(true)
-      }
-      if (yChange) {
-        this._lastMousePos = mousePos
+      const angleDifference = angle - this._old_angle
+      let event
+      if (angleDifference > 15) {
+        event = new CustomEvent('rotating', {'detail': true})
+        this._old_angle = angle
+        window.dispatchEvent(event)
+      } else if (angleDifference < -15) {
+        event = new CustomEvent('rotating', {'detail': false})
+        this._old_angle = angle
+        window.dispatchEvent(event)
       }
     } catch (e) {
-
+      console.warn(e)
     }
   }
+
+  timerRotating(direction, times) {
+    setTimeout(() => {
+      if (times >= 0) {
+        try {
+          this.rotating(direction, times === 11)
+        } catch (e) {
+          console.warn(e)
+        }
+        times -= 1
+        this.timerRotating(direction, times)
+      } else {
+        var event = new Event('timerOver');
+        window.dispatchEvent(event)
+      }
+    }, 20)
+  }
+
 
   /**
    *
    * @param direction true is clockwise, false is counterclockwise
    */
   rotating(direction) {
-    //中心点横坐标
-    const dotLeft = this._pop.offsetWidth / 2;
-    //中心点纵坐标
-    const dotTop = this._pop.offsetHeight / 2;
-    //半径
-    const radius = 150;
-    //每一个BOX对应的角度;
-    const avd = 360 / 8;
-    //每一个BOX对应的弧度;
-    const ahd = avd * Math.PI / 180;
-    const buttonSize = 65
-    const step = ahd / 24
+    const {dotLeft, dotTop} = this.getCentralPoint()
+    const {radius, buttonSize} = this.props
+    const step = 1 / 12
     this._buttons.forEach((button, i) => {
-      const oldAHD = button.getSize().ahd
-      const newAHD = !direction ? oldAHD + step : oldAHD - step
-      const position = this.calculatePosition(newAHD, radius, dotLeft, dotTop, buttonSize, ahd)
-      const differenceLeft = position.left - 160
-      const differenceTop = 12 - position.top
-      if (differenceLeft > -10 && differenceLeft < 10 && differenceTop > 0) {
-        console.log(i + "====" + position)
+      const oldIndex = button.getSize().index
+      const newIndex = direction ? oldIndex + step : oldIndex - step
+      const position = calculatePosition(newIndex, radius, dotLeft, dotTop, buttonSize, AHD)
+      const differenceLeft = position.left.toFixed(2) - 160
+      const differenceTop = position.top.toFixed(2) - 12
+      if (differenceLeft > -10 && differenceLeft < 0 && differenceTop < 2 && !direction) {
+        let v = this._hideData[0]
+        const newData = this.state.data.slice()
+        if (v.index === 1 || (i === 0 && (v.index - newData[newData.length - 1].index) === 1) || (i !== 0 && (v.index - newData[i - 1].index) === 1)) {
+          v = this._hideData.shift()
+          let arr = []
+          arr.push(newData[i])
+          this._hideData = this._hideData.concat(arr)
+          newData[i] = v
+          this.setState({data: newData})
+        }
+        button.displayTitle('block')
       }
-      button.setPosition(position.left, position.top, newAHD)
+      if (differenceLeft > 0 && differenceLeft < 10 && differenceTop < 2 && direction) {
+        let v = this._hideData[this._hideData.length - 1]
+        const newData = this.state.data.slice()
+        const {data} = this.props
+        if (v.index === data.length || (i === (newData.length - 1) && (newData[0].index) - v.index === 1) || (i !== (newData.length - 1) && (newData[i + 1].index - v.index) === 1)) {
+          v = this._hideData.pop()
+          let arr = []
+          arr.push(newData[i])
+          this._hideData = arr.concat(this._hideData)
+          newData[i] = v
+          this.setState({data: newData})
+        }
+        button.displayTitle('block')
+      }
+      if (differenceLeft < 1 && differenceLeft > -1 && differenceTop < 1) {
+        button.displayTitle('none')
+      }
+      button.setPosition(position.left.toFixed(1), position.top.toFixed(1), newIndex)
     })
   }
 
@@ -160,58 +222,27 @@ class ChildPop extends React.PureComponent {
     }
   }
 
-  setPosition(left, top) {
-    this._pop.style.left = left + "px"
-    this._pop.style.top = top + "px"
-  }
-
-  calculatePosition(module, radius, dotLeft, dotTop, buttonSize, ahd) {
+  getCentralPoint() {
     return {
-      left: Math.sin((ahd * (8 - module + 3))) * radius + dotLeft - buttonSize,
-      top: Math.cos((ahd * (8 - module + 3))) * radius + dotTop - buttonSize
+      //中心点横坐标
+      dotLeft: this._pop.offsetWidth / 2,
+      //中心点纵坐标
+      dotTop: this._pop.offsetHeight / 2
     }
   }
 
   initRing() {
-    //中心点横坐标
-    const dotLeft = this._pop.offsetWidth / 2;
-    //中心点纵坐标
-    const dotTop = this._pop.offsetHeight / 2;
-
-    this._dotLeft = dotLeft
-    this._dotTop = dotTop
-    //半径
-    const radius = 150;
-    //每一个BOX对应的角度;
-    const avd = 360 / 8;
-    //每一个BOX对应的弧度;
-    const ahd = avd * Math.PI / 180;
-    const buttonSize = 65
+    const {radius, buttonSize} = this.props
+    const {dotLeft, dotTop} = this.getCentralPoint()
     this._buttons.forEach((button, i) => {
-      const module = i % 9
-      const position = this.calculatePosition(module, radius, dotLeft, dotTop, buttonSize, ahd)
-      button.setPosition(position.left, position.top, module)
+      const position = calculatePosition(i, radius, dotLeft, dotTop, buttonSize, AHD)
+      button.setPosition(position.left, position.top, i)
+      if (i === this.state.data.length - 1) {
+        button.displayTitle('none')
+      }
     })
     if (this._button_more) {
-      this._button_more.setPosition(160, 10)
-    }
-  }
-
-  mouseCoords(ev) {
-    if (ev.pageX || ev.pageY) {
-      return {x: ev.pageX, y: ev.pageY}
-    }
-    if (ev.clientX || ev.clientY) {
-      return {
-        x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-        y: ev.clientY + document.body.scrollTop - document.body.clientTop
-      }
-    }
-    if (ev.touches[0].pageX || ev.touches[0].pageY) {
-      return {
-        x: ev.touches[0].pageX,
-        y: ev.touches[0].pageY
-      }
+      this._button_more.setPosition(MORE_BUTTON_LEFT, MORE_BUTTON_TOP)
     }
   }
 
@@ -219,13 +250,21 @@ class ChildPop extends React.PureComponent {
     const {left, top, data, hideChildPop, setCenter} = this.props
     return (
       <div className="child-pop-div" ref={a => this._pop = a}
-           style={{'left': left - 225 + 45, 'top': top - 225 + 60}}>
+           style={{'left': left - POP_HALF_WIDTH, 'top': top - POP_HALF_WIDTH}}>
         {this.state.data && this.state.data.map((v, i) => <Button key={i} title={v.title} text={v.text} size={'small'}
                                                                   onClick={v.onClick} hideChildPop={hideChildPop}
                                                                   setCenter={setCenter} index={v.index}
-                                                                  ref={a => this._buttons[i] = a}/>)}
+                                                                  ref={a => this._buttons[i] = a}
+                                                                  titleFontColor={this.props.titleFontColor}
+                                                                  buttonFontColor={this.props.buttonFontColor}
+                                                                  buttonBackground={this.props.buttonBackground}
+                                                                  titleFontSize={this.props.titleFontSize}
+                                                                  buttonFontSize={this.props.buttonFontSize}/>)}
         {data.length > 8 &&
-        <Button title={''} text={'More'} size={'small'} ref={a => this._button_more = a} className="more-button"/>}
+        <Button title={''} text={'More'} size={'small'} ref={a => this._button_more = a} className="more-button"
+                titleFontColor={this.props.titleFontColor}
+                buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
+                titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}/>}
       </div>
     )
   }

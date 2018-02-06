@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import './index.css'
+import './RotateMenu.css'
 import Button from './Button'
 import ChildPop from './ChildPop'
 import RenderInBody from './RenderInBody'
 
 class RotateMenu extends React.PureComponent {
-
-  _dot
 
   constructor(props) {
     super(props)
@@ -32,8 +30,8 @@ class RotateMenu extends React.PureComponent {
 
   showChildPop(e) {
     this.setState({
-      childPopLeft: e.target.getBoundingClientRect().left,
-      childPopTop: e.target.getBoundingClientRect().top,
+      childPopLeft: e.target.getBoundingClientRect().left + 45,
+      childPopTop: e.target.getBoundingClientRect().top + 60,
       showChildPop: true
     })
   }
@@ -45,7 +43,7 @@ class RotateMenu extends React.PureComponent {
   }
 
   setCenter(index) {
-    let newDataSource = new Array()
+    let newDataSource = []
     newDataSource.push(this.state.originalDataSource[index])
     newDataSource = newDataSource.concat(this.state.originalDataSource.slice(0, index))
     newDataSource = newDataSource.concat(this.state.originalDataSource.slice(index + 1, this.state.originalDataSource.length))
@@ -53,14 +51,20 @@ class RotateMenu extends React.PureComponent {
   }
 
   render() {
+    const {className} = this.props
     return (
-      <div>
-        <Button title={this.state.dataSource[0].title} text={this.state.dataSource[0].text} onClick={this.showChildPop}
-                ref={a => this._dot = a}/>
+      <div className={className}>
+        <Button title={this.state.dataSource[0].title} text={this.state.dataSource[0].text}
+                onClick={this.showChildPop} titleFontColor={this.props.titleFontColor}
+                buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
+                titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}/>
         {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody>
           <ChildPop left={this.state.childPopLeft} top={this.state.childPopTop} hideChildPop={this.hideChildPop}
-                    setCenter={this.setCenter}
-                    data={this.state.dataSource.slice(1, this.state.dataSource.length)}></ChildPop>
+                    setCenter={this.setCenter} radius={this.props.radius} buttonSize={this.props.buttonSize}
+                    data={this.state.dataSource.slice(1, this.state.dataSource.length)}
+                    titleFontColor={this.props.titleFontColor}
+                    buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
+                    titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}></ChildPop>
         </RenderInBody>}
       </div>
     );
@@ -69,6 +73,24 @@ class RotateMenu extends React.PureComponent {
 
 RotateMenu.propTypes = {
   dataSource: PropTypes.array.isRequired,
+  radius: PropTypes.number,
+  buttonSize: PropTypes.number,
+  titleFontColor: PropTypes.string,
+  titleFontSize: PropTypes.string,
+  buttonFontColor: PropTypes.string,
+  buttonFontSize: PropTypes.string,
+  buttonBackground: PropTypes.string,
+  className: PropTypes.string
+}
+
+RotateMenu.defaultProps = {
+  radius: 150,
+  buttonSize: 65,
+  titleFontColor: '#fff',
+  titleFontSize: '16px',
+  buttonFontColor: '#0e83cd',
+  buttonFontSize: '28px',
+  buttonBackground: '#fff',
 }
 
 export default RotateMenu;
