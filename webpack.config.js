@@ -7,7 +7,7 @@ console.log(path.join(__dirname, './src'));
 
 module.exports = {
   entry: {
-    RotateMenu: './src/RotateMenu.jsx',
+    index: './src/RotateMenu.jsx',
   },
   output: {
     path: path.join(__dirname, './dist'),
@@ -55,6 +55,8 @@ module.exports = {
       commonjs2: 'react-dom',
       commonjs: 'react-dom',
       amd: 'react-dom',
-    }
+    },
+    'classnames': 'classnames',
+    'prop-types': 'prop-types'
   }
 };
