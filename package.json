@@ -1,6 +1,6 @@
 {
   "name": "react-rotate-menu",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "author": "kairi",
   "email": "kairi1227@126.com",
@@ -8,7 +8,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kairi1227/react-rotate-menu.git"
+    "url": "git+https://github.com/wafersystems/react-rotate-menu.git"
   },
   "files": [
     "dist"
@@ -36,8 +36,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "webpack",
+    "build": "webpack -p",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
   }
 }
