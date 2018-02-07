@@ -8,18 +8,26 @@ console.log(path.join(__dirname, './src'));
 module.exports = {
   entry: {
     RotateMenu: './src/RotateMenu.jsx',
-    vendor: ['react', 'react-dom', 'classnames']
   },
   output: {
     path: path.join(__dirname, './dist'),
     filename: '[name].js',
     libraryTarget: "umd"
   },
+  devtool: 'source-map',
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.js'}),
     new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      output: {
+        ascii_only: true,
+      },
+      compress: {
+        warnings: false,
+      },
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.LoaderOptionsPlugin({
       minimize: true,
-      compress: {}
     })
   ],
   module: {
@@ -36,6 +44,17 @@ module.exports = {
     ]
   },
   externals: {
-    'react': 'react'
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react',
+    },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom',
+    }
   }
 };
