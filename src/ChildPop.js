@@ -164,7 +164,7 @@ class ChildPop extends React.PureComponent {
         var event = new Event('timerOver');
         window.dispatchEvent(event)
       }
-    }, 20)
+    }, 40)
   }
 
 
