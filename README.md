@@ -13,7 +13,7 @@ React Rotate Menu
 ### React 
 
 ````
-import RotateMenu from 'RotateMenu'
+import RotateMenu from 'react-rotate-menu'
 
 
 <RotateMenu dataSource={data}/>
