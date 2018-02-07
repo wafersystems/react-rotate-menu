@@ -73,9 +73,9 @@ class Button extends React.PureComponent {
   }
 
   onClick(e) {
-    const {onClick, hideChildPop, setCenter, index} = this.props
+    const {onClick, hideChildPop, setCenter, index, data} = this.props
     if (onClick) {
-      onClick(e)
+      onClick(e, data)
     }
     if (setCenter) {
       setCenter(index)
@@ -128,7 +128,8 @@ Button.propTypes = {
   titleFontSize: PropTypes.string.isRequired,
   buttonFontColor: PropTypes.string.isRequired,
   buttonFontSize: PropTypes.string.isRequired,
-  buttonBackground: PropTypes.string.isRequired
+  buttonBackground: PropTypes.string.isRequired,
+  data: PropTypes.object
 }
 
 Button.defaultProps = {
