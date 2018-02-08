@@ -1,1 +1,1 @@
-module.exports = require('./dist/RotateMenu.js');
+module.exports = require('./dist/index.js');
