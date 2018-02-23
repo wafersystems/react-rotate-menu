@@ -51,14 +51,14 @@ class RotateMenu extends React.PureComponent {
   }
 
   render() {
-    const {className} = this.props
+    const {className, offset} = this.props
     return (
-      <div className={className}>
+      <div className={className} style={{padding: offset, position: 'absolute'}}>
         <Button title={this.state.dataSource[0].title} text={this.state.dataSource[0].text}
                 onClick={this.showChildPop} titleFontColor={this.props.titleFontColor}
                 buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
                 titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}/>
-        {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody>
+        {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody container={this.props.container || document.body}>
           <ChildPop left={this.state.childPopLeft} top={this.state.childPopTop} hideChildPop={this.hideChildPop}
                     setCenter={this.setCenter} radius={this.props.radius} buttonSize={this.props.buttonSize}
                     data={this.state.dataSource.slice(1, this.state.dataSource.length)}
@@ -82,7 +82,9 @@ RotateMenu.propTypes = {
   buttonFontSize: PropTypes.string,
   buttonBackground: PropTypes.string,
   className: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  container: PropTypes.object,
+  offset: PropTypes.number
 }
 
 RotateMenu.defaultProps = {
@@ -93,6 +95,8 @@ RotateMenu.defaultProps = {
   buttonFontColor: '#0e83cd',
   buttonFontSize: '28px',
   buttonBackground: '#fff',
+  container: document.body,
+  offset: 0
 }
 
 export default RotateMenu;

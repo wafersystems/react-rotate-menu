@@ -12,5 +12,5 @@ for (let i = 0; i < 12; i++) {
   })
 }
 
-ReactDOM.render(<App dataSource={data} onClick={(e, d) => console.log(d)}/>, document.getElementById('root'));
+ReactDOM.render(<App dataSource={data} onClick={(e, d) => console.log(d)} offset={200} container={document.getElementById('root')}/>, document.getElementById('root'));
 registerServiceWorker();
