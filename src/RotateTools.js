@@ -70,6 +70,17 @@ export const changeButtonBackgroundColor = (color) => {
   transition: transform 0.2s, opacity 0.2s;
   }
   `)
+  css(`.hi-icon-effect-2 .hi-icon-child:after {
+  top: -2px;
+  left: -2px;
+  padding: 2px;
+  z-index: -1;
+  background: ${color};
+  -webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+  -moz-transition: -moz-transform 0.2s, opacity 0.2s;
+  transition: transform 0.2s, opacity 0.2s;
+  }
+  `)
 }
 
 export const changeButtonFontSize = (size) => {

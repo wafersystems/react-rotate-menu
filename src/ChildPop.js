@@ -46,6 +46,7 @@ class ChildPop extends React.PureComponent {
     this.onMouseMove = this.onMouseMove.bind(this)
     this.initRing = this.initRing.bind(this)
     this.getCentralPoint = this.getCentralPoint.bind(this)
+    this.correctDeviation = this.correctDeviation.bind(this)
     const {data} = this.props
     this.state = {
       data: data.length < 9 ? data : data.slice(0, 8),
@@ -59,10 +60,16 @@ class ChildPop extends React.PureComponent {
 
   componentDidMount() {
     this.initRing()
+    this.correctDeviation()
     const {data} = this.props
     if (data.length > 8) {
       this.addListen()
     }
+  }
+
+  correctDeviation() {
+    this._pop.style.top = (Number(this._pop.style.top.replace('px', '')) - this._pop.parentNode.offsetTop) + 'px'
+    this._pop.style.left = (Number(this._pop.style.left.replace('px', '')) - this._pop.parentNode.offsetLeft) + 'px'
   }
 
   addListen() {
@@ -100,6 +107,7 @@ class ChildPop extends React.PureComponent {
 
   mouseDownHandle() {
     this._move = true
+
   }
 
   touchStartHandle(e) {
@@ -161,7 +169,7 @@ class ChildPop extends React.PureComponent {
         times -= 1
         this.timerRotating(direction, times)
       } else {
-        var event = new Event('timerOver');
+        const event = new Event('timerOver');
         window.dispatchEvent(event)
       }
     }, 40)
