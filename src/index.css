@@ -6,9 +6,3 @@ body {
   -webkit-overflow-scrolling: touch;
   background: #0e83cd;
 }
-
-#root {
-  /* position: absolute; */
-  height: 100vh;
-  margin: -100px;
-}
