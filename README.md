@@ -10,15 +10,18 @@ React Rotate Menu
 
 ## How to use
 
+### install
+
+`npm install react-rotate-menu --save`
+
 ### React 
 
-````
+```js
 import RotateMenu from 'react-rotate-menu'
-
 
 <RotateMenu dataSource={data}/>
 
-````
+```
 
 Properties  | Description | Type | Default Values
 ------------- | ------------- | --------------| ------------- 
@@ -56,4 +59,5 @@ $ npm run-script start
 ````
 
 > notice:
-> if set parent dom position(padding or margin), RotateMenu need to set container to parent dom.
+    
+    if set parent dom position(padding or margin), RotateMenu need to set container to parent dom.
