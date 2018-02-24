@@ -51,9 +51,9 @@ class RotateMenu extends React.PureComponent {
   }
 
   render() {
-    const {className, offset} = this.props
+    const {className} = this.props
     return (
-      <div className={className} style={{padding: offset, position: 'absolute'}}>
+      <div className={className} style={{padding: 150, position: 'absolute'}}>
         <Button title={this.state.dataSource[0].title} text={this.state.dataSource[0].text}
                 onClick={this.showChildPop} titleFontColor={this.props.titleFontColor}
                 buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
@@ -83,8 +83,7 @@ RotateMenu.propTypes = {
   buttonBackground: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
-  container: PropTypes.object,
-  offset: PropTypes.number
+  container: PropTypes.object
 }
 
 RotateMenu.defaultProps = {
@@ -95,8 +94,7 @@ RotateMenu.defaultProps = {
   buttonFontColor: '#0e83cd',
   buttonFontSize: '28px',
   buttonBackground: '#fff',
-  container: document.body,
-  offset: 0
+  container: document.body
 }
 
 export default RotateMenu;

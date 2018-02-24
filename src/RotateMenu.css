@@ -1,7 +1,7 @@
 .hi-icon-wrap {
   text-align: center;
   margin: 0 auto;
-  padding: 2em 0 3em;
+  /* padding: 2em 0 3em; */
   width: 150px;
   position: absolute;
   -webkit-transition: all 600ms;
@@ -180,7 +180,7 @@
 }
 
 .child-pop-div {
-  position: relative;
+  /* position: relative; */
   width: 450px;
   height: 450px;
 }

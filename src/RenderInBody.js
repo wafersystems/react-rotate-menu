@@ -16,6 +16,7 @@ export default class RenderInBody extends Component {
 
   componentDidMount() {//新建一个div标签并塞进body
     this.popup = document.createElement("div");
+    this.popup.style.position = 'absolute';
     this.props.container.appendChild(this.popup);
     this._renderLayer();
   }

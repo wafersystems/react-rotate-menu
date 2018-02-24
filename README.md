@@ -32,7 +32,6 @@ buttonBackground | button background color | string | #fff
 className | The custom style | sring |
 onClick | on click CallBack,e is event,data is button data | function(e,data){}|
 container | mount dom | object | document.body |
-offset | menu position | number | 0 |
 
 
 ### Data
@@ -57,4 +56,4 @@ $ npm run-script start
 ````
 
 > notice:
-> if set parent dom height, RotateMenu need to set container to parent dom.
+> if set parent dom position(padding or margin), RotateMenu need to set container to parent dom.

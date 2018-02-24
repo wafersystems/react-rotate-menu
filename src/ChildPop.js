@@ -250,7 +250,7 @@ class ChildPop extends React.PureComponent {
     const {left, top, data, hideChildPop, setCenter, onClick} = this.props
     return (
       <div className="child-pop-div" ref={a => this._pop = a}
-           style={{'left': left - POP_HALF_WIDTH, 'top': top - POP_HALF_WIDTH}}>
+           style={{'left': left + POP_HALF_WIDTH, 'top': top + POP_HALF_WIDTH}}>
         {this.state.data && this.state.data.map((v, i) => <Button key={i} title={v.title} text={v.text} size={'small'}
                                                                   onClick={onClick} hideChildPop={hideChildPop}
                                                                   data={v}
