@@ -54,10 +54,19 @@ class RotateMenu extends React.PureComponent {
     const {className} = this.props
     return (
       <div className={className}>
-        <Button title={this.state.dataSource[0].title} text={this.state.dataSource[0].text}
-                onClick={this.showChildPop} titleFontColor={this.props.titleFontColor}
-                buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
-                titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}/>
+        <Button title={this.state.dataSource[0].title}
+                text={this.state.dataSource[0].text}
+                onClick={this.props.onClick}
+                showChildPop={this.showChildPop}
+                hideChildPop={this.hideChildPop}
+                data={this.state.dataSource[0]}
+                titleFontColor={this.props.titleFontColor}
+                buttonFontColor={this.props.buttonFontColor}
+                buttonBackground={this.props.buttonBackground}
+                titleFontSize={this.props.titleFontSize}
+                buttonFontSize={this.props.buttonFontSize}
+                showChildPopStatus={this.state.showChildPop}
+        />
         {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody>
           <ChildPop left={this.state.childPopLeft} top={this.state.childPopTop} hideChildPop={this.hideChildPop}
                     setCenter={this.setCenter} radius={this.props.radius} buttonSize={this.props.buttonSize}
