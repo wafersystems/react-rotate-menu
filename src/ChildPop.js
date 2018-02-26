@@ -69,6 +69,9 @@ class ChildPop extends React.PureComponent {
 
   correctDeviation() {
     this._pop.style.top = (Number(this._pop.style.top.replace('px', '')) - this._pop.parentNode.offsetTop) + 'px'
+    if (window.getComputedStyle(document.body, null).position === 'relative') {
+      this._pop.style.top = (Number(this._pop.style.top.replace('px', '')) - 50) + 'px'
+    }
     this._pop.style.left = (Number(this._pop.style.left.replace('px', '')) - this._pop.parentNode.offsetLeft) + 'px'
   }
 
@@ -254,11 +257,12 @@ class ChildPop extends React.PureComponent {
     }
   }
 
+
   render() {
     const {left, top, data, hideChildPop, setCenter, onClick} = this.props
     return (
       <div className="child-pop-div" ref={a => this._pop = a}
-           style={{'left': left + POP_HALF_WIDTH, 'top': top + POP_HALF_WIDTH}}>
+           style={{'left': left - POP_HALF_WIDTH, 'top': top - POP_HALF_WIDTH}}>
         {this.state.data && this.state.data.map((v, i) => <Button key={i} title={v.title} text={v.text} size={'small'}
                                                                   onClick={onClick} hideChildPop={hideChildPop}
                                                                   data={v}

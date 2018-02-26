@@ -53,12 +53,21 @@ class RotateMenu extends React.PureComponent {
   render() {
     const {className} = this.props
     return (
-      <div className={className} style={{padding: 150, position: 'absolute'}}>
-        <Button title={this.state.dataSource[0].title} text={this.state.dataSource[0].text}
-                onClick={this.showChildPop} titleFontColor={this.props.titleFontColor}
-                buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
-                titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}/>
-        {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody container={this.props.container || document.body}>
+      <div className={className}>
+        <Button title={this.state.dataSource[0].title}
+                text={this.state.dataSource[0].text}
+                onClick={this.props.onClick}
+                showChildPop={this.showChildPop}
+                hideChildPop={this.hideChildPop}
+                data={this.state.dataSource[0]}
+                titleFontColor={this.props.titleFontColor}
+                buttonFontColor={this.props.buttonFontColor}
+                buttonBackground={this.props.buttonBackground}
+                titleFontSize={this.props.titleFontSize}
+                buttonFontSize={this.props.buttonFontSize}
+                showChildPopStatus={this.state.showChildPop}
+        />
+        {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody>
           <ChildPop left={this.state.childPopLeft} top={this.state.childPopTop} hideChildPop={this.hideChildPop}
                     setCenter={this.setCenter} radius={this.props.radius} buttonSize={this.props.buttonSize}
                     data={this.state.dataSource.slice(1, this.state.dataSource.length)}
@@ -82,8 +91,7 @@ RotateMenu.propTypes = {
   buttonFontSize: PropTypes.string,
   buttonBackground: PropTypes.string,
   className: PropTypes.string,
-  onClick: PropTypes.func,
-  container: PropTypes.object
+  onClick: PropTypes.func
 }
 
 RotateMenu.defaultProps = {
@@ -94,7 +102,6 @@ RotateMenu.defaultProps = {
   buttonFontColor: '#0e83cd',
   buttonFontSize: '28px',
   buttonBackground: '#fff',
-  container: document.body
 }
 
 export default RotateMenu;

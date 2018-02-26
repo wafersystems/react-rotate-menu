@@ -73,15 +73,28 @@ class Button extends React.PureComponent {
   }
 
   onClick(e) {
-    const {onClick, hideChildPop, setCenter, index, data} = this.props
-    if (onClick) {
-      onClick(e, data)
-    }
-    if (setCenter) {
-      setCenter(index)
-    }
-    if (hideChildPop) {
-      hideChildPop()
+    const {onClick, hideChildPop, setCenter, index, data, showChildPop, showChildPopStatus} = this.props
+    if (showChildPop) {
+      if (!showChildPopStatus) {
+        showChildPop(e)
+      } else {
+        if (hideChildPop) {
+          hideChildPop()
+        }
+        if (onClick) {
+          onClick(e, data)
+        }
+      }
+    } else {
+      if (onClick) {
+        onClick(e, data)
+      }
+      if (setCenter) {
+        setCenter(index)
+      }
+      if (hideChildPop) {
+        hideChildPop()
+      }
     }
   }
 
@@ -129,7 +142,9 @@ Button.propTypes = {
   buttonFontColor: PropTypes.string.isRequired,
   buttonFontSize: PropTypes.string.isRequired,
   buttonBackground: PropTypes.string.isRequired,
-  data: PropTypes.object
+  data: PropTypes.object,
+  showChildPopStatus: PropTypes.bool,
+  showChildPop: PropTypes.func
 }
 
 Button.defaultProps = {
