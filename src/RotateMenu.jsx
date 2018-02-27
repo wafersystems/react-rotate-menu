@@ -84,7 +84,7 @@ class RotateMenu extends React.PureComponent {
                     titleFontColor={this.props.titleFontColor}
                     buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
                     titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}
-                    onClick={this.props.onClick}></ChildPop>
+                    onClick={this.props.onClick} moreText={this.props.moreText}></ChildPop>
         </RenderInBody>}
       </div>
     );
@@ -112,7 +112,8 @@ RotateMenu.defaultProps = {
   titleFontSize: '16px',
   buttonFontColor: '#0e83cd',
   buttonFontSize: '28px',
-  buttonBackground: '#fff'
+  buttonBackground: '#fff',
+  moreText: 'More'
 }
 
 export default RotateMenu;
