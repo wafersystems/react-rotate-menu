@@ -68,6 +68,7 @@ class RotateMenu extends React.PureComponent {
                 titleFontSize={this.props.titleFontSize}
                 buttonFontSize={this.props.buttonFontSize}
                 showChildPopStatus={this.state.showChildPop}
+                buttonClassName={this.props.buttonClassName}
         />
         {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody>
           <ChildPop left={this.state.childPopLeft} top={this.state.childPopTop} hideChildPop={this.hideChildPop}
@@ -76,7 +77,8 @@ class RotateMenu extends React.PureComponent {
                     titleFontColor={this.props.titleFontColor}
                     buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
                     titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}
-                    onClick={this.props.onClick} moreText={this.props.moreText}></ChildPop>
+                    onClick={this.props.onClick} moreText={this.props.moreText}
+                    buttonClassName={this.props.buttonClassName}></ChildPop>
         </RenderInBody>}
       </div>
     );
@@ -93,6 +95,7 @@ RotateMenu.propTypes = {
   buttonFontSize: PropTypes.string,
   buttonBackground: PropTypes.string,
   className: PropTypes.string,
+  buttonClassName: PropTypes.string,
   onClick: PropTypes.func,
   moreText: PropTypes.string
 }

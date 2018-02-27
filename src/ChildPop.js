@@ -293,12 +293,14 @@ class ChildPop extends React.PureComponent {
                                                                   buttonFontColor={this.props.buttonFontColor}
                                                                   buttonBackground={this.props.buttonBackground}
                                                                   titleFontSize={this.props.titleFontSize}
-                                                                  buttonFontSize={this.props.buttonFontSize}/>)}
+                                                                  buttonFontSize={this.props.buttonFontSize}
+                                                                  buttonClassName={this.props.buttonClassName}/>)}
         {data.length > 8 &&
         <Button title={''} text={moreText} size={'small'} ref={a => this._button_more = a} className="more-button"
                 titleFontColor={this.props.titleFontColor}
                 buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
-                titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}/>}
+                titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}
+                buttonClassName={this.props.buttonClassName}/>}
       </div>
     )
   }
