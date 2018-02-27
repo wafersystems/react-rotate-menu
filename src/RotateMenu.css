@@ -197,3 +197,7 @@
   height: 140px;
   z-index: 999;
 }
+
+.hide-overflow {
+  overflow: hidden;
+}

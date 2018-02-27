@@ -4,6 +4,7 @@ import './RotateMenu.css'
 import Button from './Button'
 import ChildPop from './ChildPop'
 import RenderInBody from './RenderInBody'
+import {getElementLeft, getElementTop} from './RotateTools'
 
 class RotateMenu extends React.PureComponent {
 
@@ -28,20 +29,11 @@ class RotateMenu extends React.PureComponent {
     })
   }
 
-  getElementTop(element) {
-    let actualTop = element.offsetTop;
-    let current = element.offsetParent;
-    while (current !== null) {
-      actualTop += current.offsetTop;
-      current = current.offsetParent;
-    }
-    return actualTop;
-  }
 
   showChildPop(e) {
     this.setState({
-      childPopLeft: e.target.getBoundingClientRect().left + 45,
-      childPopTop: this.getElementTop(e.target) + 110,
+      childPopLeft: getElementLeft(e.target) + 45,
+      childPopTop: getElementTop(e.target) + 60,
       showChildPop: true
     })
   }

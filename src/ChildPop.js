@@ -47,6 +47,7 @@ class ChildPop extends React.PureComponent {
     this.initRing = this.initRing.bind(this)
     this.getCentralPoint = this.getCentralPoint.bind(this)
     this.correctDeviation = this.correctDeviation.bind(this)
+    this.clickDocument = this.clickDocument.bind(this)
     const {data} = this.props
     this.state = {
       data: data.length < 9 ? data : data.slice(0, 8),
@@ -56,6 +57,12 @@ class ChildPop extends React.PureComponent {
 
   componentWillUnmount() {
     this.removeListen()
+    document.removeEventListener('click', this.clickDocument)
+    let classVal = document.body.getAttribute("class")
+    if (classVal) {
+      classVal = classVal.replace('hide-overflow', "")
+    }
+    document.body.setAttribute("class", classVal)
   }
 
   componentDidMount() {
@@ -65,13 +72,18 @@ class ChildPop extends React.PureComponent {
     if (data.length > 8) {
       this.addListen()
     }
+    document.addEventListener('click', this.clickDocument)
+    let classVal = document.body.getAttribute("class")
+    if (classVal) {
+      classVal = classVal.concat('hide-overflow')
+    } else {
+      classVal = 'hide-overflow'
+    }
+    document.body.setAttribute("class", classVal)
   }
 
   correctDeviation() {
     this._pop.style.top = (Number(this._pop.style.top.replace('px', '')) - this._pop.parentNode.offsetTop) + 'px'
-    if (window.getComputedStyle(document.body, null).position === 'relative') {
-      this._pop.style.top = (Number(this._pop.style.top.replace('px', '')) - 50) + 'px'
-    }
     this._pop.style.left = (Number(this._pop.style.left.replace('px', '')) - this._pop.parentNode.offsetLeft) + 'px'
   }
 
@@ -84,6 +96,7 @@ class ChildPop extends React.PureComponent {
       window.addEventListener('mouseup', this.mouseUpHandle)
       window.addEventListener('mousedown', this.mouseDownHandle)
       window.addEventListener('mousemove', this.onMouseMove)
+
     }
     window.addEventListener('rotating', this.rotatingEventHandle);
     window.addEventListener('timerOver', this.timerOverEventHandle);
@@ -103,14 +116,21 @@ class ChildPop extends React.PureComponent {
     window.removeEventListener('timerOver', this.timerOverEventHandle);
   }
 
+  clickDocument() {
+    const {hideChildPop} = this.props
+    if (this._old_angle === 0 && hideChildPop) {
+      hideChildPop()
+    }
+    this._old_angle = 0
+  }
+
   mouseUpHandle() {
     this._move = false
-    this._old_angle = 0
+    // this._old_angle = 0
   }
 
   mouseDownHandle() {
     this._move = true
-
   }
 
   touchStartHandle(e) {
