@@ -28,10 +28,20 @@ class RotateMenu extends React.PureComponent {
     })
   }
 
+  getElementTop(element) {
+    let actualTop = element.offsetTop;
+    let current = element.offsetParent;
+    while (current !== null) {
+      actualTop += current.offsetTop;
+      current = current.offsetParent;
+    }
+    return actualTop;
+  }
+
   showChildPop(e) {
     this.setState({
       childPopLeft: e.target.getBoundingClientRect().left + 45,
-      childPopTop: e.target.getBoundingClientRect().top + 60,
+      childPopTop: this.getElementTop(e.target) + 110,
       showChildPop: true
     })
   }
@@ -91,7 +101,8 @@ RotateMenu.propTypes = {
   buttonFontSize: PropTypes.string,
   buttonBackground: PropTypes.string,
   className: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  moreText: PropTypes.string
 }
 
 RotateMenu.defaultProps = {
@@ -101,7 +112,7 @@ RotateMenu.defaultProps = {
   titleFontSize: '16px',
   buttonFontColor: '#0e83cd',
   buttonFontSize: '28px',
-  buttonBackground: '#fff',
+  buttonBackground: '#fff'
 }
 
 export default RotateMenu;
