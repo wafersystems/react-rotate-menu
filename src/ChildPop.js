@@ -9,10 +9,10 @@ import {
   mouseCoords,
   calculatePosition,
   POP_HALF_WIDTH,
-  MORE_BUTTON_TOP,
   MORE_BUTTON_LEFT,
   AHD, isMobile
 } from './RotateTools'
+import PropTypes from "prop-types";
 
 class ChildPop extends React.PureComponent {
 
@@ -253,13 +253,14 @@ class ChildPop extends React.PureComponent {
       }
     })
     if (this._button_more) {
-      this._button_more.setPosition(MORE_BUTTON_LEFT, MORE_BUTTON_TOP)
+      const position = calculatePosition(7, radius, dotLeft, dotTop, buttonSize, AHD)
+      this._button_more.setPosition(MORE_BUTTON_LEFT, position.top)
     }
   }
 
 
   render() {
-    const {left, top, data, hideChildPop, setCenter, onClick} = this.props
+    const {left, top, data, hideChildPop, setCenter, onClick, moreText} = this.props
     return (
       <div className="child-pop-div" ref={a => this._pop = a}
            style={{'left': left - POP_HALF_WIDTH, 'top': top - POP_HALF_WIDTH}}>
@@ -274,13 +275,21 @@ class ChildPop extends React.PureComponent {
                                                                   titleFontSize={this.props.titleFontSize}
                                                                   buttonFontSize={this.props.buttonFontSize}/>)}
         {data.length > 8 &&
-        <Button title={''} text={'More'} size={'small'} ref={a => this._button_more = a} className="more-button"
+        <Button title={''} text={moreText} size={'small'} ref={a => this._button_more = a} className="more-button"
                 titleFontColor={this.props.titleFontColor}
                 buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
                 titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}/>}
       </div>
     )
   }
+}
+
+ChildPop.propTypes = {
+  moreText: PropTypes.string
+}
+
+ChildPop.defaultProps = {
+  moreText: 'More'
 }
 
 export default ChildPop
