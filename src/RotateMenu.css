@@ -181,8 +181,8 @@
 
 .child-pop-div {
   position: relative;
-  width: 450px;
-  height: 450px;
+  /* width: 450px;
+  height: 450px; */
 }
 
 .child-pop-button-show {

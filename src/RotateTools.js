@@ -3,9 +3,13 @@
  * Date : 18/01/2018  2:37 PM
  * Email : wangxiao@wafersystems.com
  */
-export const MORE_BUTTON_LEFT = 160
+// export const MORE_BUTTON_LEFT = 160
 
-export const MORE_BUTTON_TOP = 10
+// export const MORE_BUTTON_TOP = 10
+
+export const MORE_BUTTON_LEFT = -60
+
+export const MORE_BUTTON_TOP = -215
 
 export const POP_HALF_WIDTH = 225
 

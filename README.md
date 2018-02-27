@@ -34,7 +34,6 @@ buttonFontSize | title font seze | string | 28px
 buttonBackground | button background color | string | #fff
 className | The custom style | sring |
 onClick | on click CallBack,e is event,data is button data | function(e,data){}|
-container | mount dom | object | document.body |
 
 
 ### Data
@@ -57,7 +56,3 @@ $ git clone https://github.com/wafersystems/react-rotate-menu.git
 $ npm i
 $ npm run-script start
 ````
-
-> notice:
-    
-    if set parent dom position(padding or margin), RotateMenu need to set container to parent dom.
