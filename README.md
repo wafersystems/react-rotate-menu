@@ -35,6 +35,7 @@ buttonBackground | button background color | string | #fff
 className | The custom style | sring |
 onClick | on click CallBack,e is event,data is button data | function(e,data){}|
 container | mount dom | object | document.body |
+moreText  | more button text | string | More
 
 
 ### Data
