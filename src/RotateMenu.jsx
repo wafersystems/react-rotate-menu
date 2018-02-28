@@ -4,6 +4,7 @@ import './RotateMenu.css'
 import Button from './Button'
 import ChildPop from './ChildPop'
 import RenderInBody from './RenderInBody'
+import {getElementLeft, getElementTop} from './RotateTools'
 
 class RotateMenu extends React.PureComponent {
 
@@ -28,10 +29,11 @@ class RotateMenu extends React.PureComponent {
     })
   }
 
+
   showChildPop(e) {
     this.setState({
-      childPopLeft: e.target.getBoundingClientRect().left + 45,
-      childPopTop: e.target.getBoundingClientRect().top + 60,
+      childPopLeft: getElementLeft(e.target) + 45,
+      childPopTop: getElementTop(e.target) + 60,
       showChildPop: true
     })
   }
@@ -66,6 +68,7 @@ class RotateMenu extends React.PureComponent {
                 titleFontSize={this.props.titleFontSize}
                 buttonFontSize={this.props.buttonFontSize}
                 showChildPopStatus={this.state.showChildPop}
+                buttonClassName={this.props.buttonClassName}
         />
         {this.state.dataSource.length > 1 && this.state.showChildPop && <RenderInBody>
           <ChildPop left={this.state.childPopLeft} top={this.state.childPopTop} hideChildPop={this.hideChildPop}
@@ -74,7 +77,8 @@ class RotateMenu extends React.PureComponent {
                     titleFontColor={this.props.titleFontColor}
                     buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
                     titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}
-                    onClick={this.props.onClick}></ChildPop>
+                    onClick={this.props.onClick} moreText={this.props.moreText}
+                    buttonClassName={this.props.buttonClassName}></ChildPop>
         </RenderInBody>}
       </div>
     );
@@ -91,7 +95,9 @@ RotateMenu.propTypes = {
   buttonFontSize: PropTypes.string,
   buttonBackground: PropTypes.string,
   className: PropTypes.string,
-  onClick: PropTypes.func
+  buttonClassName: PropTypes.string,
+  onClick: PropTypes.func,
+  moreText: PropTypes.string
 }
 
 RotateMenu.defaultProps = {
@@ -102,6 +108,7 @@ RotateMenu.defaultProps = {
   buttonFontColor: '#0e83cd',
   buttonFontSize: '28px',
   buttonBackground: '#fff',
+  moreText: 'More'
 }
 
 export default RotateMenu;

@@ -103,21 +103,24 @@ class Button extends React.PureComponent {
   }
 
   render() {
-    const {title, text, size, className} = this.props
+    const {title, text, size, className, buttonClassName} = this.props
     let divStyle = classNames({
       'hi-icon-wrap': size === 'normal',
       'hi-icon-child-wrap': size === 'small',
-      'hi-icon-effect-2': true,
-      'hi-icon-effect-2a': true,
+      'hi-icon-effect-2': true && !buttonClassName,
+      'hi-icon-effect-2a': true && !buttonClassName,
     })
     if (className) {
       divStyle += ' ' + className
     }
-    const textStyle = classNames({
-      'hi-icon': size === 'normal',
-      'hi-icon-child': size === 'small',
+    let textStyle = classNames({
+      'hi-icon': size === 'normal' && !buttonClassName,
+      'hi-icon-child': size === 'small' && !buttonClassName,
       'hi-icon-text': true
     })
+    if (buttonClassName) {
+      textStyle += ' ' + buttonClassName
+    }
     const titleStyle = classNames({
       'hi-icon-child-title': size === 'small',
       'hi-icon-title': size === 'normal'
@@ -144,7 +147,8 @@ Button.propTypes = {
   buttonBackground: PropTypes.string.isRequired,
   data: PropTypes.object,
   showChildPopStatus: PropTypes.bool,
-  showChildPop: PropTypes.func
+  showChildPop: PropTypes.func,
+  buttonClassName: PropTypes.string
 }
 
 Button.defaultProps = {

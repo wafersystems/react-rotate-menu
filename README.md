@@ -34,6 +34,9 @@ buttonFontSize | title font seze | string | 28px
 buttonBackground | button background color | string | #fff
 className | The custom style | sring |
 onClick | on click CallBack,e is event,data is button data | function(e,data){}|
+moreText  | more button text | string | More
+buttonClassName | button class name,when set this prop default value will cover. | String |
+
 
 
 ### Data
@@ -55,4 +58,5 @@ for (let i = 0; i < 12; i++) {
 $ git clone https://github.com/wafersystems/react-rotate-menu.git
 $ npm i
 $ npm run-script start
+
 ````
