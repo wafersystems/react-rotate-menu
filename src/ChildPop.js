@@ -8,7 +8,6 @@ import Button from './Button'
 import {
   mouseCoords,
   calculatePosition,
-  POP_HALF_WIDTH,
   MORE_BUTTON_LEFT,
   AHD, isMobile
 } from './RotateTools'
@@ -280,12 +279,13 @@ class ChildPop extends React.PureComponent {
 
 
   render() {
-    const {left, top, data, hideChildPop, setCenter, onClick, moreText} = this.props
+    const {left, top, data, hideChildPop, setCenter, onClick, moreText, showRingButtonTitle} = this.props
     return (
       <div className="child-pop-div" ref={a => this._pop = a}
-      // style={{'left': left - POP_HALF_WIDTH, 'top': top - POP_HALF_WIDTH}}>
+        // style={{'left': left - POP_HALF_WIDTH, 'top': top - POP_HALF_WIDTH}}>
            style={{'left': left, 'top': top}}>
-        {this.state.data && this.state.data.map((v, i) => <Button key={i} title={v.title} text={v.text} size={'small'}
+        {this.state.data && this.state.data.map((v, i) => <Button key={i} title={showRingButtonTitle ? v.title : ''}
+                                                                  text={v.text} size={'small'}
                                                                   onClick={onClick} hideChildPop={hideChildPop}
                                                                   data={v}
                                                                   setCenter={setCenter} index={v.index}

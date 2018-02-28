@@ -32,7 +32,9 @@ class Button extends React.PureComponent {
     changeButtonBackgroundColor(this.props.buttonBackground)
     changeButtonFontSize(this.props.buttonFontSize)
     this._a.style.color = this.props.buttonFontColor
-    this._a.style['box-shadow'] = `0 0 0 3px ${this.props.buttonBackground}`
+    if (!this.props.buttonClassName) {
+      this._a.style['box-shadow'] = `0 0 0 3px ${this.props.buttonBackground}`
+    }
     this._title.style.color = this.props.titleFontColor
     this._title.style['font-size'] = this.props.titleFontSize
   }
@@ -108,7 +110,7 @@ class Button extends React.PureComponent {
       'hi-icon-wrap': size === 'normal',
       'hi-icon-child-wrap': size === 'small',
       'hi-icon-effect-2': true && !buttonClassName,
-      'hi-icon-effect-2a': true && !buttonClassName,
+      'hi-icon-effect-2a': true && !buttonClassName
     })
     if (className) {
       divStyle += ' ' + className
@@ -116,7 +118,7 @@ class Button extends React.PureComponent {
     let textStyle = classNames({
       'hi-icon': size === 'normal' && !buttonClassName,
       'hi-icon-child': size === 'small' && !buttonClassName,
-      'hi-icon-text': true
+      'hi-icon-text': true && !buttonClassName
     })
     if (buttonClassName) {
       textStyle += ' ' + buttonClassName

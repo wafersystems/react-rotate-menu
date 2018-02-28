@@ -78,7 +78,8 @@ class RotateMenu extends React.PureComponent {
                     buttonFontColor={this.props.buttonFontColor} buttonBackground={this.props.buttonBackground}
                     titleFontSize={this.props.titleFontSize} buttonFontSize={this.props.buttonFontSize}
                     onClick={this.props.onClick} moreText={this.props.moreText}
-                    buttonClassName={this.props.ringButtonClassName}></ChildPop>
+                    buttonClassName={this.props.ringButtonClassName}
+                    showRingButtonTitle={this.props.showRingButtonTitle}></ChildPop>
         </RenderInBody>}
       </div>
     );
@@ -97,8 +98,10 @@ RotateMenu.propTypes = {
   className: PropTypes.string,
   centerButtonClassName: PropTypes.string,
   ringButtonClassName: PropTypes.string,
+  showRingButtonTitle: PropTypes.bool,
   onClick: PropTypes.func,
-  moreText: PropTypes.string
+  moreText: PropTypes.string,
+
 }
 
 RotateMenu.defaultProps = {
@@ -109,7 +112,8 @@ RotateMenu.defaultProps = {
   buttonFontColor: '#0e83cd',
   buttonFontSize: '28px',
   buttonBackground: '#fff',
-  moreText: 'More'
+  moreText: 'More',
+  showRingButtonTitle: true
 }
 
 export default RotateMenu;
