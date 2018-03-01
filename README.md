@@ -35,7 +35,9 @@ buttonBackground | button background color | string | #fff
 className | The custom style | sring |
 onClick | on click CallBack,e is event,data is button data | function(e,data){}|
 moreText  | more button text | string | More
-buttonClassName | button class name,when set this prop default value will cover. | String |
+centerButtonClassName | center button class name,when set this prop default value will cover. | String |
+ringButtonClassName |ring button class name,when set this prop default value will cover. | String |
+showRingButtonTitle |show ring button title. | bool | true
 
 
 
